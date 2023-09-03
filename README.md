@@ -1,4 +1,7 @@
-# opencv-perspective-app
+# opencv-perspective-app! 
+
+![perspective-logo](https://github.com/lucasdifranco/opencv-perspective-app/assets/130804578/81573b50-6ace-46d4-a9ec-1237d7882227)
+
 
 This Python application is designed to modify the perspective of images using the OpenCV library. It provides an easy way to select four corners in the original image, and then applies the cv2.warpPerspective function to modify the image's perspective. This tool is useful for tasks such as correcting distortions in photos or preparing images for perspective-based transformations, training AI models, etc...
 
