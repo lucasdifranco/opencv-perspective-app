@@ -131,7 +131,7 @@ class perspective_app(tk.Tk):
         
             Parameters: 
                 event (event): Bind (Page Down);
-                self.current_image_index (var): Recebe índice mais atualizado das fotos.
+                current_image_index (var): Recebe índice mais atualizado das fotos.
 
             Returns:
                 None
@@ -150,7 +150,7 @@ class perspective_app(tk.Tk):
         
             Parameters: 
                 event (event): Bind (Page Up);
-                self.current_image_index (var): Recebe índice mais atualizado das fotos.
+                current_image_index (var): Recebe índice mais atualizado das fotos.
 
             Returns:
                 None
@@ -216,11 +216,11 @@ class perspective_app(tk.Tk):
             Carrega e insere imagem em canvas1.
 
             Parameters: 
-                self.current_image_index (index): Recebe índice da imagem atual;
-                self.image_paths[] (list[value]): Recebe valor em lista para definir caminho da imagem atual;
-                self.available_width (int): Recebe valor de largura para ajustar tamanho da imagem;
-                self.available_height (int): Recebe valor de altura para ajustar tamanho da imagem;
-                elf.trecho_list[] (list[value]): Recebe valor de km atrelado à imagem atual.
+                current_image_index (index): Recebe índice da imagem atual;
+                image_paths[] (list[value]): Recebe valor em lista para definir caminho da imagem atual;
+                available_width (int): Recebe valor de largura para ajustar tamanho da imagem;
+                available_height (int): Recebe valor de altura para ajustar tamanho da imagem;
+                trecho_list[] (list[value]): Recebe valor de km atrelado à imagem atual.
 
             Returns:
                 None
@@ -239,11 +239,10 @@ class perspective_app(tk.Tk):
             Transforma a imagem numa perspectiva e gera uma grade para amostragem.
 
             Parameters: 
-                self.points (list): Recebe lista de pontos para montar perspectiva;
-                self.resizing_in_progress (var): Recebe variável para ativar função em casos necessários;
-                self.image.width (int): Recebe tamanho da imagem no tamanho original;
-                self.resized_image.width (int): Recebe tamanho da imagem em tamanho atual;
-                self.image (photo_image): Recebe foto para montar perspectiva como photo_image.
+                points (list): Recebe lista de pontos para montar perspectiva;
+                image.width (int): Recebe tamanho da imagem no tamanho original;
+                resized_image.width (int): Recebe tamanho da imagem em tamanho atual;
+                image (photo_image): Recebe foto para montar perspectiva como photo_image.
 
             Returns:
                 None
@@ -280,7 +279,7 @@ class perspective_app(tk.Tk):
             Desenha linhas vermelhas entre os pontos em canvas1 por loop.
 
             Parameters: 
-                self.points (list): Recebe lista de pontos para desenhar linhas.
+                points (list): Recebe lista de pontos para desenhar linhas.
 
             Returns:
                 None
@@ -297,7 +296,7 @@ class perspective_app(tk.Tk):
             Calcula qual o ponto, em self.points, está mais próximo das coordenadas clicadas na tela.
 
             Parameters: 
-                self.points (list): Recebe lista de pontos parapydesenhar linhas.
+                points (list): Recebe lista de pontos parapydesenhar linhas.
 
             Returns:
                 clossest_point (index): retorna índice do ponto mais perto.
@@ -313,8 +312,8 @@ class perspective_app(tk.Tk):
             Atualiza a lista self.points para o tamanho atual da imagem.
 
             Parameters: 
-                self.available_width (int): Recebe de self a largura da canvas1;
-                self.available_height (int): Recebe de self a altura da canvas1;
+                available_width (int): Recebe de self a largura da canvas1;
+                available_height (int): Recebe de self a altura da canvas1;
 
             Returns:
                 None
