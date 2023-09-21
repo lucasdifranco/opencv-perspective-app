@@ -6,6 +6,7 @@ from tkinter import filedialog, ttk
 from PIL import Image, ImageTk
 import os
 import video_config
+import image_process
 
 class perspective_app(tk.Tk):
 
@@ -56,27 +57,15 @@ class perspective_app(tk.Tk):
         self.canvas4.place(x = canvas1_x , y = (self.canvas1_height + 20))
 
         # Botão para abrir a imagem
-        self.load_button = tk.Button(self.canvas4, text="Load Folder", command=self.load_folder, height= 1, width= 20)
+        self.load_button = tk.Button(self.canvas4, text="Load Folder", command=self.load_folder, height= 1, width= 15)
         self.load_button.place(x=5, y=325)
 
         # Botão para salvar parametros
-        self.save_parameters = tk.Button(self.canvas4, text="Save", height= 1, width= 20)
-        self.save_parameters.place(x=170, y=95)
+        self.save_parameters = tk.Button(self.canvas4, text="Save Single", height= 1, width= 15)
+        self.save_parameters.place(x=205, y=325)
 
-        # Input Largura
-        self.width_label = ttk.Label(self.canvas4, text='Width')
-        self.width_label.place(x=10,y=80)
-        self.width_entry = tk.Entry(self.canvas4, width= 5)
-        self.width_entry.place(x=10,y=100)
-
-        self.x_label = tk.Label(self.canvas4, text='X')
-        self.x_label.place(x=55,y=100)
-
-        # Input Altura
-        self.height_label = tk.Label(self.canvas4, text='Height')
-        self.height_label.place(x=80,y=80)
-        self.height_entry = tk.Entry(self.canvas4, width= 5)
-        self.height_entry.place(x=80,y=100)
+        self.bach_parameters = tk.Button(self.canvas4, text="Save Bach", height= 1, width= 15)
+        self.bach_parameters.place(x=330, y=325)
 
         self.selected_corner = None
         self.points = [(0, 0),
@@ -235,42 +224,9 @@ class perspective_app(tk.Tk):
             self.draw_lines_between_points()
 
     def transform_image(self) -> None:
-        '''
-            Transforma a imagem numa perspectiva e gera uma grade para amostragem.
 
-            Parameters: 
-                points (list): Recebe lista de pontos para montar perspectiva;
-                image.width (int): Recebe tamanho da imagem no tamanho original;
-                resized_image.width (int): Recebe tamanho da imagem em tamanho atual;
-                image (photo_image): Recebe foto para montar perspectiva como photo_image.
-
-            Returns:
-                None
-            '''
-        
-        if len(self.points) == 4:
-            # calcula razão do aspecto entre a imagem original com atual.
-            self.aspect_ratio = self.image.width / self.resized_image.width
-            # ajusta pontos para o aspecto calculado.
-            adjusted_points = [(x*self.aspect_ratio, y*self.aspect_ratio) for x, y in self.points]
-            # transforma em np.array os pontos ajustado.
-            src_points = np.array(adjusted_points, dtype=np.float32)
-            # calcula tamanho de canvas2.
-            canvas2_width = self.canvas2.winfo_reqwidth()
-            canvas2_height = self.canvas2.winfo_height()
-            # define np.array para tamanho de canvas2.
-            dst_points = np.array([(0, 0), (canvas2_width, 0), (canvas2_width, canvas2_height), (0, canvas2_height)], dtype=np.float32)
-            # cria uma matriz de perspectiva com pontos da imagem e canvas2.
-            perspective_matrix = cv2.getPerspectiveTransform(src_points, dst_points)
-            
-            # Transforma imagem.
-            if self.image:
-                original_image = np.array(self.image)
-                transformed_image = cv2.warpPerspective(original_image, perspective_matrix, (canvas2_width, canvas2_height))
-                pil_image = Image.fromarray(transformed_image)
-                self.transformed_photo = ImageTk.PhotoImage(pil_image)
-
-                self.canvas2.create_image(0, 0, anchor="nw", image=self.transformed_photo)
+        self.transformed_photo = image_process.img_trasnform(self.image,self.resized_image,self.points,self.canvas2)
+        self.canvas2.create_image(0, 0, anchor="nw", image=self.transformed_photo)
 
 # ========= Vis. Linhas ========== #
 
