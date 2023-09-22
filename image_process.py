@@ -8,13 +8,13 @@ class image_process:
     '''
     Classe feita para acomodar funções de processamento de imagem, desde demostração na interface até seu salvamento.
     '''
-    def __init__(self,image:Image, resized_image:Image, points:list, canvas2 , folder_path:os.path, src_img_path:str) -> None:
+    def __init__(self,image:Image, resized_image:Image, points:list, canvas2 , image_paths, src_img_path:str) -> None:
 
         self.image = image
         self.resized_image = resized_image
         self.points = points
         self.canvas2 = canvas2
-        self.folder_path = folder_path
+        self.image_paths = image_paths
         self.src_img_path = src_img_path
 
     def perspective_calculation(self):
@@ -109,3 +109,7 @@ class image_process:
             folder_path (path): Caminho da pasta com imagens
         
         '''
+        for image_path in self.image_paths:
+            self.image = Image.open(image_path)
+            self.src_img_path = image_path
+            self.save_single()

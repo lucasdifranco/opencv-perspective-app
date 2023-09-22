@@ -22,7 +22,7 @@ class perspective_app(tk.Tk):
         self.root = root
         self.image = None
         self.root.title("Transformação de Perspectiva")
-        self.root.iconbitmap("opencv-perspective-app\perspective.ico")
+        self.root.iconbitmap(".\perspective.ico")
         root_w = int(1100)
         root_h = int(670)
         self.root.geometry((str(root_w) + 'x' + str(root_h)))
@@ -65,7 +65,7 @@ class perspective_app(tk.Tk):
         self.single_save = tk.Button(self.canvas4, text="Save Single", height= 1, width= 15, command=self.save_single_img)
         self.single_save.place(x=205, y=325)
 
-        self.bach_save = tk.Button(self.canvas4, text="Save Bach", height= 1, width= 15)
+        self.bach_save = tk.Button(self.canvas4, text="Save Bach", height= 1, width= 15, command=self.save_bach_img)
         self.bach_save.place(x=330, y=325)
 
         self.selected_corner = None
@@ -128,10 +128,24 @@ class perspective_app(tk.Tk):
                                 self.resized_image,
                                 self.points,
                                 self.canvas2,
-                                self.folder_path,
+                                self.image_paths,
                                 self.image_path)
         
         img_parameters.save_single()
+
+    def save_bach_img(self) -> None:
+        '''
+        Chama função que salva imagem.
+        '''
+        img_parameters = image_process(self.image,
+                                self.resized_image,
+                                self.points,
+                                self.canvas2,
+                                self.image_paths,
+                                self.image_path)
+        
+        img_parameters.save_bach()
+
 
     def next_image(self, event) -> None:
         '''
@@ -251,7 +265,7 @@ class perspective_app(tk.Tk):
                                        self.resized_image,
                                        self.points,
                                        self.canvas2,
-                                       self.folder_path,
+                                       self.image_paths,
                                        self.image_path)
         
         self.transformed_photo = img_parameters.img_show()
