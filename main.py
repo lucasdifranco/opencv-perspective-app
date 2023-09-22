@@ -2,7 +2,7 @@
 import cv2
 import numpy as np
 import tkinter as tk
-from tkinter import filedialog, ttk
+from tkinter import filedialog, ttk,messagebox
 from PIL import Image, ImageTk
 import os
 import video_config
@@ -57,6 +57,9 @@ class perspective_app(tk.Tk):
         self.canvas4 = tk.Canvas(root, width = self.canvas1_width, height = (canvas2_height - self.canvas1_height - 12))#, bg="grey")
         self.canvas4.place(x = canvas1_x , y = (self.canvas1_height + 20))
 
+        self.progress = ttk.Progressbar(self.canvas3, orient="horizontal", length=200, mode="determinate")
+        self.progress.place(x=618,y=4)
+
         # Botão para abrir a imagem
         self.load_button = tk.Button(self.canvas4, text="Load Folder", command=self.load_folder, height= 1, width= 15)
         self.load_button.place(x=5, y=325)
@@ -65,7 +68,7 @@ class perspective_app(tk.Tk):
         self.single_save = tk.Button(self.canvas4, text="Save Single", height= 1, width= 15, command=self.save_single_img)
         self.single_save.place(x=205, y=325)
 
-        self.batch_save = tk.Button(self.canvas4, text="Save batch", height= 1, width= 15, command=self.save_batch_img)
+        self.batch_save = tk.Button(self.canvas4, text="Save Batch", height= 1, width= 15, command=self.save_batch_img)
         self.batch_save.place(x=330, y=325)
 
         self.selected_corner = None
@@ -76,7 +79,7 @@ class perspective_app(tk.Tk):
         ]
 
         self.authors_name = tk.Label(self.canvas3,text= "Lucas di Franco Albuquerque",font="calibri",background='gray',foreground='white')
-        self.authors_name.place(x= root_w - 300 ,y= 2)
+        self.authors_name.place(x= root_w - 275 ,y= 2)
         self.rev_number = tk.Label(self.canvas3,text= "rev 2.1.3",font="calibri",background='gray',foreground='white')
         self.rev_number.place(x= root_w - 80 ,y= 2)
 
@@ -129,9 +132,12 @@ class perspective_app(tk.Tk):
                                 self.points,
                                 self.canvas2,
                                 self.image_paths,
-                                self.image_path)
+                                self.image_path,
+                                self.progress)
         
         img_parameters.save_single()
+        messagebox.showinfo("Image Saved","Image saved in source directory!")
+        
 
     def save_batch_img(self) -> None:
         '''
@@ -142,10 +148,12 @@ class perspective_app(tk.Tk):
                                 self.points,
                                 self.canvas2,
                                 self.image_paths,
-                                self.image_path)
+                                self.image_path,
+                                self.progress)
         
         img_parameters.save_batch()
-
+        messagebox.showinfo("Images Saved","Images saved in source directory!")
+        self.progress["value"] = 0
 
     def next_image(self, event) -> None:
         '''
@@ -262,11 +270,12 @@ class perspective_app(tk.Tk):
     def transform_image(self) -> None:
 
         img_parameters = image_process(self.image,
-                                       self.resized_image,
-                                       self.points,
-                                       self.canvas2,
-                                       self.image_paths,
-                                       self.image_path)
+                                self.resized_image,
+                                self.points,
+                                self.canvas2,
+                                self.image_paths,
+                                self.image_path,
+                                self.progress)
         
         self.transformed_photo = img_parameters.img_show()
         self.canvas2.create_image(0, 0, anchor="nw", image=self.transformed_photo)

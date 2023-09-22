@@ -1,14 +1,13 @@
-import os
 import cv2
 import numpy as np
 from PIL import Image, ImageTk
-import io
+from time import sleep
 
 class image_process:
     '''
     Classe feita para acomodar funções de processamento de imagem, desde demostração na interface até seu salvamento.
     '''
-    def __init__(self,image:Image, resized_image:Image, points:list, canvas2 , image_paths, src_img_path:str) -> None:
+    def __init__(self,image:Image, resized_image:Image, points:list, canvas2 , image_paths, src_img_path:str, progress) -> None:
 
         self.image = image
         self.resized_image = resized_image
@@ -16,6 +15,7 @@ class image_process:
         self.canvas2 = canvas2
         self.image_paths = image_paths
         self.src_img_path = src_img_path
+        self.progress_value = progress
 
     def perspective_calculation(self):
         '''
@@ -109,7 +109,12 @@ class image_process:
             folder_path (path): Caminho da pasta com imagens
         
         '''
+        sleep(0.5)
+        uni_value = 200/len(self.image_paths)
+        x = 1
         for image_path in self.image_paths:
             self.image = Image.open(image_path)
             self.src_img_path = image_path
             self.save_single()
+            self.progress_value["value"] = int(x * uni_value)
+            x += 1
