@@ -6,7 +6,7 @@ from tkinter import filedialog, ttk
 from PIL import Image, ImageTk
 import os
 import video_config
-import image_process
+from image_process import image_process
 
 class perspective_app(tk.Tk):
 
@@ -22,6 +22,7 @@ class perspective_app(tk.Tk):
         self.root = root
         self.image = None
         self.root.title("Transformação de Perspectiva")
+        self.root.iconbitmap("opencv-perspective-app\perspective.ico")
         root_w = int(1100)
         root_h = int(670)
         self.root.geometry((str(root_w) + 'x' + str(root_h)))
@@ -61,11 +62,11 @@ class perspective_app(tk.Tk):
         self.load_button.place(x=5, y=325)
 
         # Botão para salvar parametros
-        self.save_parameters = tk.Button(self.canvas4, text="Save Single", height= 1, width= 15)
-        self.save_parameters.place(x=205, y=325)
+        self.single_save = tk.Button(self.canvas4, text="Save Single", height= 1, width= 15, command=self.save_single_img)
+        self.single_save.place(x=205, y=325)
 
-        self.bach_parameters = tk.Button(self.canvas4, text="Save Bach", height= 1, width= 15)
-        self.bach_parameters.place(x=330, y=325)
+        self.bach_save = tk.Button(self.canvas4, text="Save Bach", height= 1, width= 15)
+        self.bach_save.place(x=330, y=325)
 
         self.selected_corner = None
         self.points = [(0, 0),
@@ -73,6 +74,11 @@ class perspective_app(tk.Tk):
             (self.canvas1_width, self.canvas1_height),
             (0, self.canvas1_height)
         ]
+
+        self.authors_name = tk.Label(self.canvas3,text= "Lucas di Franco Albuquerque",font="calibri",background='gray',foreground='white')
+        self.authors_name.place(x= root_w - 300 ,y= 2)
+        self.rev_number = tk.Label(self.canvas3,text= "rev 2.1.3",font="calibri",background='gray',foreground='white')
+        self.rev_number.place(x= root_w - 80 ,y= 2)
 
         self.root.bind("<Next>", self.next_image)
         self.root.bind("<Prior>", self.prev_image)
@@ -101,10 +107,10 @@ class perspective_app(tk.Tk):
 
         '''
 
-        folder_path = filedialog.askdirectory()
+        self.folder_path = filedialog.askdirectory()
 
-        if folder_path:
-            camera_folder, fotos = video_config.gather_info(folder_path)
+        if self.folder_path:
+            camera_folder, fotos = video_config.gather_info(self.folder_path)
             self.image_paths = [os.path.join(camera_folder, photo) for photo in fotos]
             self.trecho_list = video_config.ajuste_kms(camera_folder, fotos)
             self.current_image_index = 0
@@ -113,6 +119,19 @@ class perspective_app(tk.Tk):
                 self.update_points()
                 self.load_and_display_current_image()
                 self.transform_image()
+
+    def save_single_img(self) -> None:
+        '''
+        Chama função que salva imagem.
+        '''
+        img_parameters = image_process(self.image,
+                                self.resized_image,
+                                self.points,
+                                self.canvas2,
+                                self.folder_path,
+                                self.image_path)
+        
+        img_parameters.save_single()
 
     def next_image(self, event) -> None:
         '''
@@ -216,16 +235,26 @@ class perspective_app(tk.Tk):
         '''
 
         if 0 <= self.current_image_index < len(self.image_paths):
-            image_path = self.image_paths[self.current_image_index]
-            self.image = Image.open(image_path)
+            self.image_path = self.image_paths[self.current_image_index]
+            self.image = Image.open(self.image_path)
             self.resized_image = self.image.resize((self.canvas1_width, self.canvas1_height), Image.LANCZOS)
             self.tk_image = ImageTk.PhotoImage(self.resized_image)
             self.canvas1.create_image(0, 0, anchor='nw', image=self.tk_image)
             self.draw_lines_between_points()
+            if self.trecho_list:
+                self.canvas3.delete("image_info")
+                self.canvas3.create_text(130, 14, text=self.image_path, fill="white", tags="image_info")
 
     def transform_image(self) -> None:
 
-        self.transformed_photo = image_process.img_trasnform(self.image,self.resized_image,self.points,self.canvas2)
+        img_parameters = image_process(self.image,
+                                       self.resized_image,
+                                       self.points,
+                                       self.canvas2,
+                                       self.folder_path,
+                                       self.image_path)
+        
+        self.transformed_photo = img_parameters.img_show()
         self.canvas2.create_image(0, 0, anchor="nw", image=self.transformed_photo)
 
 # ========= Vis. Linhas ========== #

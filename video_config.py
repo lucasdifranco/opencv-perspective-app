@@ -17,7 +17,7 @@ def gather_info(file_path:str) -> [str,list]:
     camera_path = file_path
     FOTOS = []
     for photo in os.listdir(camera_path):
-        if photo.endswith('.jpg'):
+        if photo.endswith('.jpg') and not photo.endswith('pp.jpg'):
             FOTOS.append(os.path.join(photo))
 
     return camera_path,FOTOS
