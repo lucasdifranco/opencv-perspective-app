@@ -9,15 +9,19 @@ Originally designed to streamline the standardization of images for training mac
 
 ## Features
 
-*  User-friendly interface for selecting four corner points in the original image.
+* User-friendly interface for selecting four corner points in the original image.
 * Real-time preview of perspective modification.
 * Batch processing: Apply the same perspective adjustment to multiple images in a folder.
 
+## Limitations
+* For now, the app only allows jpg type files, however this can be contoured with a few tweaks in the modules!
+
 ## Prerequisites
 ```python
-numpy==1.24.4
-opencv_python==4.5.3.56
-Pillow==10.0.0
+numpy 1.24.4
+opencv_python 4.5.3.56
+Pillow 10.0.0
+tk 0.1.0
 ```
 
 Please see any additional packages in requirements.txt.
