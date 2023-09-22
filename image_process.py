@@ -99,7 +99,7 @@ class image_process:
         self.pil_image.save(src_img_path)
         print('Imagem Salva!')
 
-    def save_bach(self) -> None:
+    def save_batch(self) -> None:
         '''
         Salva imagens em loop de acordo com save_single.
             -> cria lista com caminho das imagens

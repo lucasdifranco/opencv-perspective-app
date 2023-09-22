@@ -65,8 +65,8 @@ class perspective_app(tk.Tk):
         self.single_save = tk.Button(self.canvas4, text="Save Single", height= 1, width= 15, command=self.save_single_img)
         self.single_save.place(x=205, y=325)
 
-        self.bach_save = tk.Button(self.canvas4, text="Save Bach", height= 1, width= 15, command=self.save_bach_img)
-        self.bach_save.place(x=330, y=325)
+        self.batch_save = tk.Button(self.canvas4, text="Save batch", height= 1, width= 15, command=self.save_batch_img)
+        self.batch_save.place(x=330, y=325)
 
         self.selected_corner = None
         self.points = [(0, 0),
@@ -133,7 +133,7 @@ class perspective_app(tk.Tk):
         
         img_parameters.save_single()
 
-    def save_bach_img(self) -> None:
+    def save_batch_img(self) -> None:
         '''
         Chama função que salva imagem.
         '''
@@ -144,7 +144,7 @@ class perspective_app(tk.Tk):
                                 self.image_paths,
                                 self.image_path)
         
-        img_parameters.save_bach()
+        img_parameters.save_batch()
 
 
     def next_image(self, event) -> None:
