@@ -7,7 +7,7 @@ This Python application is specifically crafted for image perspective modificati
 
 Originally designed to streamline the standardization of images for training machine learning models, this versatile tool has found utility in various domains. Its initial purpose was to rectify perspective issues in pavement images for defect labeling. However, it has since proven invaluable in an array of tasks, including the correction of distortions in photographs and the preparation of images for perspective-based transformations, among others.
 
-![Interface_Example](https://github.com/lucasdifranco/opencv-perspective-app/assets/Interface_Example.png)
+![Interface_Example](https://github.com/lucasdifranco/opencv-perspective-app/blob/main/Interface_Example.png)
 
 ## Features
 
