@@ -7,7 +7,7 @@ class image_process:
     '''
     Classe feita para acomodar funções de processamento de imagem, desde demostração na interface até seu salvamento.
     '''
-    def __init__(self,image:Image, resized_image:Image, points:list, canvas2 , image_paths, src_img_path:str, progress) -> None:
+    def __init__(self,image:Image, resized_image:Image, points:list, canvas2 , image_paths, src_img_path:str, progress, root) -> None:
 
         self.image = image
         self.resized_image = resized_image
@@ -16,6 +16,7 @@ class image_process:
         self.image_paths = image_paths
         self.src_img_path = src_img_path
         self.progress_value = progress
+        self.root = root
 
     def perspective_calculation(self):
         '''
@@ -97,7 +98,6 @@ class image_process:
         self.transform_img()
         src_img_path = self.src_img_path.replace('.jpg','_pp.jpg')
         self.pil_image.save(src_img_path)
-        print('Imagem Salva!')
 
     def save_batch(self) -> None:
         '''
@@ -117,4 +117,6 @@ class image_process:
             self.src_img_path = image_path
             self.save_single()
             self.progress_value["value"] = int(x * uni_value)
+            self.progress_value
+            self.root.update()
             x += 1

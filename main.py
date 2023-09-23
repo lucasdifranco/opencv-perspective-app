@@ -130,7 +130,8 @@ class perspective_app(tk.Tk):
                                 self.canvas2,
                                 self.image_paths,
                                 self.image_path,
-                                self.progress)
+                                self.progress,
+                                self.root)
         
         img_parameters.save_single()
         messagebox.showinfo("Image Saved","Image saved in source directory!")
@@ -146,7 +147,8 @@ class perspective_app(tk.Tk):
                                 self.canvas2,
                                 self.image_paths,
                                 self.image_path,
-                                self.progress)
+                                self.progress,
+                                self.root)
         
         img_parameters.save_batch()
         messagebox.showinfo("Images Saved","Images saved in source directory!")
@@ -265,14 +267,15 @@ class perspective_app(tk.Tk):
                 self.canvas3.create_text(130, 14, text=self.image_path, fill="white", tags="image_info")
 
     def transform_image(self) -> None:
-
+        
         img_parameters = image_process(self.image,
                                 self.resized_image,
                                 self.points,
                                 self.canvas2,
                                 self.image_paths,
                                 self.image_path,
-                                self.progress)
+                                self.progress,
+                                self.root)
         
         self.transformed_photo = img_parameters.img_show()
         self.canvas2.create_image(0, 0, anchor="nw", image=self.transformed_photo)
